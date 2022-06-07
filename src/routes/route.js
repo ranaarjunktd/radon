@@ -24,6 +24,8 @@ router.post("/getParticularBook" ,  BookController.getParticularBook)
 
 router.post("/getInrBook",    BookController.getInrBook ,  )
 router.get("/getRandomBook",BookController.getRandomBook)
+router.post("/createAuthor",BookController.createAuthor)
+router.post("/getBookChetan",BookController.getBookChetan)
 
 
 module.exports = router;
