@@ -61,13 +61,18 @@ const getRandomBook= async function (req, res) {
  }
 
  const getAuthorBook= async function(req,res){
-     let data=await AuthorModel.findOneAndUpdate({name:"Two States"},{$set:{price:100}},{new:true})
-     let authorData=await BookModel.find({author_id:data.author_id}).select("author_name")
-     let prices=data.price
-     res.send({msg:authorData,prices})
-
+     let dataFind=await BookModel.findOneAndUpdate({name:"Two States"},{$set:{price:100}},{new:true})
+     let authorData=await AuthorModel.find({author_id:dataFind.author_id}).select("author_name")
+     
+     res.send({msg:authorData})
  }
+const bookCost= async function(req,res){
 
+    let cost= await BookModel.find({price:{$gte:50,$lte:100}}).select({author_id:1})
+    const costs=cost.map((ele)=>ele.author_id)
+    let authName= await AuthorModel.find({author_id:{$in:costs}}).select({author_name:1,_id:0})
+    res.snd({msg:authName})
+}
 module.exports.createBook= createBook
 module.exports.getBooksData= getBooksData
 module.exports.getBookList=getBookList
@@ -78,3 +83,5 @@ module.exports.getInrBook=getInrBook
 module.exports.getRandomBook=getRandomBook
 module.exports.createAuthor=createAuthor
 module.exports.getBookChetan=getBookChetan
+module.exports.getAuthorBook=getAuthorBook
+module.exports.bookCost=bookCost
